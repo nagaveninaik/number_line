@@ -1,6 +1,6 @@
 import Phaser from 'phaser';
 import MyGame from './game';
-import UIPlugin from '../node_modules/phaser3-rex-plugins/templates/ui/ui-plugin';
+import UIPlugin from "phaser3-rex-plugins/templates/ui/ui-plugin.js";
 
 var config = {
     type: Phaser.AUTO,
