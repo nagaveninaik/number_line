@@ -1,11 +1,8 @@
-
-
 import Phaser from 'phaser';
 import boy from './assets/boy.png';
 import numberLine from './assets/numberLine.png';
-// import UIPlugin from "phaser3-rex-plugins/templates/ui/ui-plugin.js";
-
-
+import addition from './assets/plus.png';
+import sub from './assets/minus.png';
 
 class MyGame extends Phaser.Scene
 {
@@ -19,74 +16,147 @@ class MyGame extends Phaser.Scene
 
         this.load.image('numberLine',numberLine);
         this.load.image('boy',boy);
+        this.load.image('addition',addition);
+        this.load.image('sub',sub);
     }
-   
        
     create ()
     {
         this.numberLine = this.add.image(375,850,'numberLine');
         this.numberLine.setOrigin(0.5);
         this.boy = this.add.image(375,700,'boy');
-        this.x =2;
-        this.y=3;
-        this.z=this.x*this.y;
-        this.values = [190,375,550];
         
-        this.add.text(310, 350, `${this.x}*${this.y}= ${this.z}`, { fontFamily: 'serif',fontSize: '60px' });
+         this.x =0;
+         this.x1=this.add.text(50,300,`${this.x}`,{ fontFamily: 'serif',fontSize: '80px' });
+         this.addition1 = this.add.image(40,420,'addition');
+         this.sub1 = this.add.image(120,420,'sub');
+
+         this.addition1.setInteractive().on("pointerdown",(pointer,localX,localY,event)=>
+         this.xValueIncrement());
+
+         this.sub1.setInteractive().on("pointerdown",(pointer,localX,localY,event)=>
+         this.xValueDecrement());
+
+         this.add.text(200,300,`*`,{ fontFamily: 'serif',fontSize: '80px' });
+
+        this.y=0;
+        this.y1=this.add.text(350,300,`${this.y}`,{ fontFamily: 'serif',fontSize: '80px' });
+        this.addition2 = this.add.image(340,420,'addition');
+        this.sub2 = this.add.image(420,420,'sub');
+
+        this.addition2.setInteractive().on("pointerdown",(pointer,localX,localY,event)=>
+         this.yValueIncrement());
+
+         this.sub2.setInteractive().on("pointerdown",(pointer,localX,localY,event)=>
+         this.yValueDecrement());
+
+        this.add.text(500,300,`=`,{ fontFamily: 'serif',fontSize: '80px' });
+
+        this.z=0;
+        this.z1 = this.add.text(650,300,`${this.z}`,{ fontFamily: 'serif',fontSize: '80px' });
+       
+        
+        this.values = [30,115,200,285,375,462,550,635,720];
         this.boy.setInteractive().on("pointerdown", (pointer, localX, localY, event)=>
-        this.moveBoyTween(this.values[Phaser.Math.Between(0,2)])
-        );
-
-        var numberBar = this.rexUI.add.numberBar({
-            x: 400,
-            y: 300,
-            width: 300, // Fixed width
-
-            background: this.rexUI.add.roundRectangle(0, 0, 0, 0, 10, 0x260e04),
-
-            icon: this.rexUI.add.roundRectangle(0, 0, 0, 0, 10, 0x7b5e57),
-
-            // slider: {
-            //     // width: 120, // Fixed width
-            //     track: this.rexUI.add.roundRectangle(0, 0, 0, 0, 10, 0x4e342e),
-            //     indicator: this.rexUI.add.roundRectangle(0, 0, 0, 0, 10, 0x7b5e57),
-            //     input: 'click',
-            // },
-
-            text: this.add.text(0, 0, '').setFixedSize(35, 0),
-
-            space: {
-                left: 10,
-                right: 10,
-                top: 10,
-                bottom: 10,
-
-                icon: 10,
-                slider: 10,
-            },
-
-            valuechangeCallback: function (value, oldValue, numberBar) {
-                numberBar.text = Math.round(Phaser.Math.Linear(-2, 2, value));
-            },
-        })
-        .layout();
-
-    numberBar.setValue(75, 0, 100);
-           
+            this.boyMovement()
         
-    
-}
+        );
+           
+    }
 
 moveBoyTween(xVal)
-{  
-     this.tweens.add({
+{ 
+    this.move= this.tweens.add({
         targets: this.boy,
         x:xVal,
-        duration: 1000,
-        ease: "Power2"
+        duration: 3000,
+        ease: "Power2",
+        yoyo: true,
+        loop: 0,
+        // onComplete: () => {
+        //     move.remove();
+        // },
     });
 }
 
+xValueIncrement()
+{
+   if( this.x < 2){
+    this.x+=1;
+    this.x1.setText(`${this.x}`);
+    this.z=this.x*this.y;
+    this.z1.setText(`${this.z}`);
+   }
+    
+}
+
+xValueDecrement()
+{
+    if(this.x > -2){
+    this.x-=1;
+    this.x1.setText(`${this.x}`);
+    this.z=this.x*this.y;
+    this.z1.setText(`${this.z}`);
+    }
+}
+
+yValueIncrement()
+{
+    if( this.y < 2){
+    this.y+=1;
+    this.y1.setText(`${this.y}`);
+    this.z=this.x*this.y;
+    this.z1.setText(`${this.z}`);
+    }
+}
+
+yValueDecrement()
+{
+    if(this.y > -2){
+    this.y-=1;
+    this.y1.setText(`${this.y}`);
+    this.z=this.x*this.y;
+    this.z1.setText(`${this.z}`);
+    }
+}
+boyMovement(){
+    {
+        if(this.x==0||this.y==0){
+           this.cur= this.moveBoyTween(this.values[4])
+        }
+        else if(this.x>0){
+            if(this.x==1&&this.y==1){
+                //this.moveBoyTween(this.values[4])
+                this.moveBoyTween(this.values[5])
+                 }else if((this.x==1&&this.y==2)||(this.x==2&&this.y==1)){
+                this.moveBoyTween(this.values[6])
+            }else if(this.x==2&&this.y==2){
+                this.moveBoyTween(this.values[8])
+            }else if((this.x==-1&&this.y==-1)||(this.x==-1&&this.y==-1)||(this.x==-1&&this.y==1)||(this.x==1&&this.y==-1)){
+                //this.moveBoyTween(this.values[4])
+                this.moveBoyTween(this.values[3])
+            }else if((this.x==-1&&this.y==2)||(this.x==-2&&this.y==1)||(this.x==-2&&this.y==1)||(this.x==1&&this.y==-2)||(this.x==2&&this.y==-1)){
+                this.moveBoyTween(this.values[2])
+            }else if(this.x==2&&this.y==2){
+                this.moveBoyTween(this.values[8])
+            }else if((this.x==-2&&this.y==2) ||(this.x==-2&&this.y==2)||(this.x==2&&this.y==-2))  {
+                this.moveBoyTween(this.events[0])
+            }
+            
+    
+        }
+        else if(this.z==-2){
+            this.moveBoyTween(this.values[0])
+        }
+        else if(this.z==1){
+            this.moveBoyTween(this.values[3])
+        }
+        else if(this.z==4){
+            this.moveBoyTween(this.values[4])
+        }
+
+    }
+}
 
 }
 
