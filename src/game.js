@@ -3,6 +3,7 @@ import boy from './assets/boy.png';
 import numberLine from './assets/numberLine.png';
 import addition from './assets/plus.png';
 import sub from './assets/minus.png';
+import clickBtn from './assets/click.png';
 
 class MyGame extends Phaser.Scene
 {
@@ -18,6 +19,7 @@ class MyGame extends Phaser.Scene
         this.load.image('boy',boy);
         this.load.image('addition',addition);
         this.load.image('sub',sub);
+        this.load.image('clickBtn',clickBtn);
     }
        
     create ()
@@ -55,9 +57,10 @@ class MyGame extends Phaser.Scene
         this.z=0;
         this.z1 = this.add.text(650,300,`${this.z}`,{ fontFamily: 'serif',fontSize: '80px' });
        
-        
+        this.clickBtn = this.add.image(680,420,'clickBtn');
+
         this.values = [30,115,200,285,375,462,550,635,720];
-        this.boy.setInteractive().on("pointerdown", (pointer, localX, localY, event)=>
+        this.clickBtn.setInteractive().on("pointerdown", (pointer, localX, localY, event)=>
             this.boyMovement()
         
         );
@@ -120,45 +123,37 @@ yValueDecrement()
     }
 }
 boyMovement(){
-    {
+    
         if(this.x==0||this.y==0){
            this.cur= this.moveBoyTween(this.values[4])
         }
-        else if(this.x>0){
-            if(this.x==1&&this.y==1){
-                //this.moveBoyTween(this.values[4])
+        else {
+            if((this.x==-1&&this.y==-1)||(this.x==1&&this.y==1)){
                 this.moveBoyTween(this.values[5])
-                 }else if((this.x==1&&this.y==2)||(this.x==2&&this.y==1)){
-                this.moveBoyTween(this.values[6])
-            }else if(this.x==2&&this.y==2){
-                this.moveBoyTween(this.values[8])
-            }else if((this.x==-1&&this.y==-1)||(this.x==-1&&this.y==-1)||(this.x==-1&&this.y==1)||(this.x==1&&this.y==-1)){
-                //this.moveBoyTween(this.values[4])
+                 }else if((this.x==1&&this.y==2)||(this.x==2&&this.y==1)||(this.x==-1&&this.y==-2)||(this.x==-2&&this.y==-1)){
+                    this.moveBoyTween(this.values[6])
+                    // var timer = scene.time.addEvent({
+                    //     delay: 2000,                // ms
+                    //     callback: callback,
+                    //     //args: [],
+                    //     callbackScope: this.moveBoyTween(this.values[6]),
+                    // });
+
+                
+            }else if((this.x==1&&this.y==-1)||(this.x==-1&&this.y==1)){
                 this.moveBoyTween(this.values[3])
-            }else if((this.x==-1&&this.y==2)||(this.x==-2&&this.y==1)||(this.x==-2&&this.y==1)||(this.x==1&&this.y==-2)||(this.x==2&&this.y==-1)){
+            }else if((this.x==-1&&this.y==2)||(this.x==-2&&this.y==1)||(this.x==1&&this.y==-2)||(this.x==2&&this.y==-1)){
                 this.moveBoyTween(this.values[2])
-            }else if(this.x==2&&this.y==2){
+            }else if((this.x==-2&&this.y==-2) ||(this.x==2&&this.y==2)){
                 this.moveBoyTween(this.values[8])
-            }else if((this.x==-2&&this.y==2) ||(this.x==-2&&this.y==2)||(this.x==2&&this.y==-2))  {
-                this.moveBoyTween(this.events[0])
-            }
-            
-    
-        }
-        else if(this.z==-2){
-            this.moveBoyTween(this.values[0])
-        }
-        else if(this.z==1){
-            this.moveBoyTween(this.values[3])
-        }
-        else if(this.z==4){
-            this.moveBoyTween(this.values[4])
+            }else if((this.x==2&&this.y==-2)||(this.x==-2&&this.y==-2))  {
+                this.moveBoyTween(this.values[0])
+           }
         }
 
     }
 }
 
-}
 
 
 export default MyGame;
