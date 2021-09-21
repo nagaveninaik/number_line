@@ -75,6 +75,7 @@ class MyGame extends Phaser.Scene
         this.clickBtn.setInteractive().on("pointerdown", (pointer, localX, localY, event)=>
         {
                 this.boyMovement();
+                
         }
         
         );  
@@ -88,18 +89,20 @@ class MyGame extends Phaser.Scene
             this.x+=1;
             this.z=this.x*this.y;
         }
-        this.boy.setPosition(this.centerValue,700);
+        this.boy.setX(this.centerValue);
+        
     
     }
     ////movement decrement button
     xValueDecrement()
     {
-       
+        
         if(this.x > this.minLimit){
             this.x-=1;
             this.z=this.x*this.y;
          }
-         this.boy.setPosition(this.centerValue,700);
+         this.boy.setX(this.centerValue);
+         
     }
     
 
@@ -111,7 +114,7 @@ class MyGame extends Phaser.Scene
             this.y+=1;
             this.z=this.x*this.y;
         }
-        this.boy.setPosition(this.centerValue,700);
+        this.boy.setX(this.centerValue);
     }
 
     //move capacity decrement button
@@ -122,7 +125,7 @@ class MyGame extends Phaser.Scene
             this.y-=1;
             this.z=this.x*this.y;
         }
-        this.boy.setPosition(this.centerValue,700);
+        this.boy.setX(this.centerValue);
     }
 
     //boy tween movement function
@@ -158,7 +161,7 @@ class MyGame extends Phaser.Scene
                     ease: 'Power1',
                     duration: 1000,
                     yoyo:false,
-                    delay:500,
+                    delay:40,
                     
             }]
     
@@ -172,6 +175,7 @@ class MyGame extends Phaser.Scene
         this.xText.setText(`${this.x}`);
         this.yText.setText(`${this.y}`);
         this.zText.setText(`${this.z}`);
+        
     }
 }
 
