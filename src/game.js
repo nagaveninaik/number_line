@@ -103,23 +103,12 @@ class MyGame extends Phaser.Scene
     }
 
     boyMovement(){
-        if(this.y==1||this.y==-1){
+        
         this.centerValue=(this.width/2);
         this.position = (this.centerValue+(this.z*75));
-        console.log(this.position);
-        this.tweens.add({
-            targets: this.boy,
-            x:this.position,
-            duration: 1000,
-            ease: "Power2",
-            yoyo: true,
-        });
-    }
-     else if(this.y==2)
-        {
             this.timeline = this.tweens.timeline({
                 targets: this.boy,
-                ease: 'Linear',       // 'Cubic', 'Elastic', 'Bounce', 'Back'
+                ease: 'Bounce',       // 'Cubic', 'Elastic', 'Bounce', 'Back'
                 duration: 1000,
                 loop: 0,
                 
@@ -127,8 +116,8 @@ class MyGame extends Phaser.Scene
                 tweens: [
                     {
                         targets: this.boy,
-                        x: (this.position/this.y),              
-                         ease: 'Linear',       
+                         x:this.position,              
+                         ease: 'Cubic',       
                          duration: 1000,
                          repeat: 0,            // -1: infinity
                          yoyo: false,
@@ -136,9 +125,7 @@ class MyGame extends Phaser.Scene
                     },
                     // ...
                 ]
-            });
-        }
-        
+            }); 
        
 
     }
