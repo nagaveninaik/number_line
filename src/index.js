@@ -11,7 +11,7 @@ var config = {
     backgroundColor: '#823abd',
     scale: {
         mode: Phaser.Scale.FIT,
-        //autoCenter: Phaser.Scale.CENTER_BOTH
+        autoCenter: Phaser.Scale.CENTER_BOTH
     },
     scene: MyGame,
     plugins: {
