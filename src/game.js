@@ -27,6 +27,9 @@ class MyGame extends Phaser.Scene
     {
         this.load.image('numberLine',numberLine);
         this.load.image('boy',boy);
+
+
+        
         this.load.image('addButton',addButton);
         this.load.image('subButton',subButton);
         this.load.image('clickBtn',clickBtn);
@@ -45,11 +48,19 @@ class MyGame extends Phaser.Scene
         this.subButtonX1 = this.add.image(120,220,'subButton');
 
         
-        this.addButtonX1.setInteractive().on("pointerdown",(pointer,localX,localY,event)=>
-        this.xValueIncrement());
+        this.addButtonX1.setInteractive().on("pointerdown",(pointer,localX,localY,event)=>{
+            this.boy.setX(this.centerValue);
+            this.xValueIncrement();
+        });
+        
+       
 
-        this.subButtonX1.setInteractive().on("pointerdown",(pointer,localX,localY,event)=>
-        this.xValueDecrement());
+        this.subButtonX1.setInteractive().on("pointerdown",(pointer,localX,localY,event)=>{
+            this.resetPosition(),
+            this.xValueDecrement()
+        });
+        
+        
 
         this.add.text(200,100,`*`,{ fontFamily: 'serif',fontSize: '80px' });
 
@@ -58,13 +69,15 @@ class MyGame extends Phaser.Scene
         this.addButtonY2 = this.add.image(340,220,'addButton');
         this.subButtonY2 = this.add.image(420,220,'subButton');
 
-        this.addButtonY2.setInteractive().on("pointerdown",(pointer,localX,localY,event)=>
+        this.addButtonY2.setInteractive().on("pointerdown",(pointer,localX,localY,event)=>{
+        this.resetPosition(),
         this.yValueIncrement()
-        );
+        });
 
-        this.subButtonY2.setInteractive().on("pointerdown",(pointer,localX,localY,event)=>
+        this.subButtonY2.setInteractive().on("pointerdown",(pointer,localX,localY,event)=>{
+        this.resetPosition(),
         this.yValueDecrement()
-        );
+        });
 
         this.add.text(500,100,`=`,{ fontFamily: 'serif',fontSize: '80px' });
 
@@ -74,7 +87,9 @@ class MyGame extends Phaser.Scene
         this.clickBtn = this.add.image(680,220,'clickBtn');
         this.clickBtn.setInteractive().on("pointerdown", (pointer, localX, localY, event)=>
         {
-                this.boyMovement();
+                
+                this.boyMovement()
+                
                 
         }
         
@@ -89,7 +104,7 @@ class MyGame extends Phaser.Scene
             this.x+=1;
             this.z=this.x*this.y;
         }
-        this.boy.setX(this.centerValue);
+        
         
     
     }
@@ -101,7 +116,7 @@ class MyGame extends Phaser.Scene
             this.x-=1;
             this.z=this.x*this.y;
          }
-         this.boy.setX(this.centerValue);
+         //this.boy.setX(this.centerValue);
          
     }
     
@@ -114,7 +129,7 @@ class MyGame extends Phaser.Scene
             this.y+=1;
             this.z=this.x*this.y;
         }
-        this.boy.setX(this.centerValue);
+        //this.boy.setX(this.centerValue);
     }
 
     //move capacity decrement button
@@ -125,7 +140,14 @@ class MyGame extends Phaser.Scene
             this.y-=1;
             this.z=this.x*this.y;
         }
-        this.boy.setX(this.centerValue);
+        //this.boy.setX(this.centerValue);
+    
+    }
+
+    //reset position
+    resetPosition(){
+        this.tweens.killTweensOf(this.boy);
+        this.boy.setPosition(this.centerValue,700);
     }
 
     //boy tween movement function
@@ -141,6 +163,7 @@ class MyGame extends Phaser.Scene
             else if(this.y<0)
             {
                 this.stepValue=-(this.z/this.y);
+
             }
 
             this.xPosition = (this.centerValue+(this.stepValue*80));
@@ -150,7 +173,7 @@ class MyGame extends Phaser.Scene
             tweens: [{
                     targets:this.boy,
                     x: this.xPosition,
-                    ease: 'Power1',
+                    ease: 'ease-out',
                     duration: 1000,
                     yoyo:false
                 
@@ -158,11 +181,11 @@ class MyGame extends Phaser.Scene
             {
                 targets:this.boy,
                     x: this.position,
-                    ease: 'Power1',
+                    ease: 'ease-out',
                     duration: 1000,
                     yoyo:false,
-                    delay:40,
-                    
+                    delay:400,
+                    position:this.boy.setPosition(this.centerValue,700)   
             }]
     
         });
